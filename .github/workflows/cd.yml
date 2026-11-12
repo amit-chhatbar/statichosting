@@ -1,0 +1,48 @@
+# CD: runs after the CI workflow finishes successfully on a push to main.
+# It downloads the exact artifact that CI built (no rebuild) and syncs it to S3.
+name: CD
+
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+
+permissions:
+  contents: read
+  actions: read # needed to download an artifact from the CI run
+
+env:
+  S3_BUCKET: statichosting-amit # arn:aws:s3:::statichosting-amit
+
+jobs:
+  deploy:
+    name: Deploy to S3
+    # Only deploy pushes to main that passed CI (not pull requests or failed runs)
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download website artifact from CI run
+        uses: actions/download-artifact@v4
+        with:
+          name: ami-hospital-website
+          path: site
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION || 'us-east-1' }}
+
+      - name: Sync website to S3
+        # --delete removes files from the bucket that no longer exist in the build
+        run: aws s3 sync site/ "s3://${S3_BUCKET}" --delete
+
+      - name: Print website URL
+        run: |
+          REGION="${{ vars.AWS_REGION || 'us-east-1' }}"
+          echo "### Deployed to http://${S3_BUCKET}.s3-website-${REGION}.amazonaws.com" >> "$GITHUB_STEP_SUMMARY"

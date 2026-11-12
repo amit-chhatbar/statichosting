@@ -1,0 +1,59 @@
+# CI: check out the code, test it, build the website, upload it as an artifact,
+# then download that artifact in a separate job to check it is complete.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build website artifact
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Run tests
+        run: npm test
+
+      - name: Build website
+        run: npm run build
+
+      - name: Upload website artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ami-hospital-website
+          path: dist/
+          if-no-files-found: error
+          retention-days: 7
+
+  verify:
+    name: Download and verify artifact
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download website artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ami-hospital-website
+          path: site
+
+      - name: Verify artifact contents
+        run: |
+          ls -R site
+          for f in index.html error.html styles.css app.js assets/logo.svg; do
+            test -f "site/$f" || { echo "::error::Missing $f in artifact"; exit 1; }
+          done
+          grep -q "AMI Hospital" site/index.html
+          echo "Artifact OK"

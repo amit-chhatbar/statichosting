@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AMI Hospital | Caring for Every Life</title>
+  <meta name="description" content="AMI Hospital: 24/7 emergency care, expert specialists and compassionate service.">
+  <link rel="icon" href="assets/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a class="brand" href="index.html">
+        <img src="assets/logo.svg" alt="" width="36" height="36">
+        <span>AMI Hospital</span>
+      </a>
+      <button class="nav-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu">&#9776;</button>
+      <nav id="nav-links" class="nav-links">
+        <a href="#departments">Departments</a>
+        <a href="#doctors">Doctors</a>
+        <a href="#appointment">Appointment</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Caring for every life, every day.</h1>
+        <p>Expert doctors, modern facilities and round-the-clock emergency care at AMI Hospital.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#appointment">Book an appointment</a>
+          <a class="btn btn-emergency" href="tel:+10000000000">Emergency: 24/7</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats container" aria-label="Hospital at a glance">
+      <div><strong>250+</strong><span>Beds</span></div>
+      <div><strong>80+</strong><span>Specialists</span></div>
+      <div><strong>24/7</strong><span>Emergency &amp; ICU</span></div>
+      <div><strong>15</strong><span>Departments</span></div>
+    </section>
+
+    <section id="departments" class="container section">
+      <h2>Departments</h2>
+      <div class="grid">
+        <article class="card"><h3>Cardiology</h3><p>Heart health, ECG, echo and cardiac catheterisation lab.</p></article>
+        <article class="card"><h3>Neurology</h3><p>Diagnosis and care for brain, spine and nerve disorders.</p></article>
+        <article class="card"><h3>Orthopaedics</h3><p>Joint replacement, sports injuries and fracture care.</p></article>
+        <article class="card"><h3>Paediatrics</h3><p>Child-friendly care from newborns to teenagers.</p></article>
+        <article class="card"><h3>Obstetrics &amp; Gynaecology</h3><p>Maternity, prenatal care and women's health.</p></article>
+        <article class="card"><h3>Emergency Medicine</h3><p>Trauma and critical care team available around the clock.</p></article>
+      </div>
+    </section>
+
+    <section id="doctors" class="section alt">
+      <div class="container">
+        <h2>Our Doctors</h2>
+        <div class="grid">
+          <article class="card doctor"><h3>Dr. A. Mehta</h3><p class="role">Chief Cardiologist</p><p>20+ years in interventional cardiology.</p></article>
+          <article class="card doctor"><h3>Dr. S. Rao</h3><p class="role">Neurologist</p><p>Specialist in stroke and epilepsy care.</p></article>
+          <article class="card doctor"><h3>Dr. K. Iyer</h3><p class="role">Orthopaedic Surgeon</p><p>Robotic knee and hip replacement.</p></article>
+          <article class="card doctor"><h3>Dr. P. Shah</h3><p class="role">Paediatrician</p><p>Neonatal and child development expert.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="appointment" class="container section">
+      <h2>Book an Appointment</h2>
+      <form id="appointment-form" class="form" novalidate>
+        <label>Full name <input name="name" required autocomplete="name"></label>
+        <label>Phone <input name="phone" type="tel" required autocomplete="tel"></label>
+        <label>Department
+          <select name="department" required>
+            <option value="">Select…</option>
+            <option>Cardiology</option>
+            <option>Neurology</option>
+            <option>Orthopaedics</option>
+            <option>Paediatrics</option>
+            <option>Obstetrics &amp; Gynaecology</option>
+            <option>Emergency Medicine</option>
+          </select>
+        </label>
+        <label>Preferred date <input name="date" type="date" required></label>
+        <button class="btn btn-primary" type="submit">Request appointment</button>
+        <p id="form-message" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="contact" class="section alt">
+      <div class="container contact">
+        <div>
+          <h2>Contact</h2>
+          <p>AMI Hospital<br>123 Health Avenue<br>Your City</p>
+        </div>
+        <div>
+          <h3>Hours</h3>
+          <p>OPD: Mon–Sat, 8:00–20:00<br>Emergency &amp; Pharmacy: 24/7</p>
+        </div>
+        <div>
+          <h3>Reach us</h3>
+          <p>Phone: <a href="tel:+10000000000">+1 000 000 0000</a><br>Email: <a href="mailto:care@amihospital.example">care@amihospital.example</a></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>&copy; <span id="year"></span> AMI Hospital. All rights reserved.</p>
+      <p class="build">Build {{BUILD_VERSION}} &middot; {{BUILD_DATE}}</p>
+    </div>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
